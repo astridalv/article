@@ -1,13 +1,12 @@
 <?php
 
 namespace App;
-use ArticleController;
+use ImageController;
 use Illuminate\Database\Eloquent\Model;
 
-class Article extends Model
+class Image extends Model
 {
   protected $fillable = [
-      'nama', 'content'
+      'title', 'Description', 'image',
   ];
-
 }

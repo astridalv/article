@@ -27,5 +27,12 @@ Route::get('contact', "HomeController@contact")->name('contact');
 Route::post('contact', "HomeController@contact_submit")->name('contact_submit');
 
 Route::resource('articles', "ArticleController");
+Route::resource('reporter', "ReporterController");
+Route::resource('images', "ImageController");
+Route::resource('comment', "CommentController");
+
+Route::post('upload', "ImageController@store")->name('uploadstore');
+Route::get('image', "ImageController@index")->name('viewimage');
+Route::get('commentimage/{id}', "ImageController@show")->name('detailimage');
 //post -->post(''/{}) input/ngambil id dari name->(...); yang bakal di pakai terus
 //get ->

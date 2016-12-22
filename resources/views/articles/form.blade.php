@@ -20,7 +20,8 @@
   <div class="col-lg-3"></div>
   <div class="col-lg-9">
     {!! Form::submit('Save', array('class' => 'btn btn-raised btn-primary')) !!}
-    {!! link_to(route('articles.index'), "Back", ['class' => 'btn btn-raised btn-info']) !!}
+    {!! Form::reset('Clear form', ['class' => 'btn btn-raised btn-danger']) !!}
+
   </div>
   <div class="clear"></div>
 </div>

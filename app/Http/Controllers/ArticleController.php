@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 use App\Article;
 use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\Model;
+use App\Http\Requests\ArticleRequest;
+use Session;
 
 class ArticleController extends Controller
 {
@@ -29,14 +31,13 @@ class ArticleController extends Controller
       //create tampilannya
         return view('articles.create');
     }
-
-    /**
+        /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(ArticleRequest $request)
     {
       //store submitnya
     //  $article = Article::create($request->all());
@@ -47,7 +48,7 @@ class ArticleController extends Controller
     $article->content = $request->content;
     $article->save();
 
-    //  Session::flash("notice", "Article success created");
+    Session::flash("notice", "Article success created");
      return redirect()->route("articles.index");
     }
 
@@ -85,7 +86,7 @@ class ArticleController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(ArticleRequest $request, $id)
     //dia sumbit untuk update
     {
         $data = Article::find($id);

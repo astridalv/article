@@ -1,15 +1,15 @@
 <?php
 
 namespace App\Http\Controllers;
-//use Illuminate\Routing\Redirector;
-use Illuminate\Support\Facades\Redirect;
-use Illuminate\Support\Facades\Validator;
-use ImageController;
-use App\Upload, App\Comment;
+use App\Upload;
 use Illuminate\Http\Request;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Input;
+use Illuminate\Support\Facades\Validator;
+use Image;
 use Session;
 
-class CommentController extends Controller
+class ImageController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -18,7 +18,8 @@ class CommentController extends Controller
      */
     public function index()
     {
-        //
+        $image = Upload::all();
+        return view("images.view",  compact('image'));
     }
 
     /**
@@ -28,7 +29,7 @@ class CommentController extends Controller
      */
     public function create()
     {
-        //
+        return view("images.index");
     }
 
     /**
@@ -39,30 +40,24 @@ class CommentController extends Controller
      */
     public function store(Request $request)
     {
-        $data = new Comment;
-        $data->subject = $request->subject;
-        $data->Comment = $request->comment;
-        $data->upload_id = $request->upload_id;
-        $data->save();
 
-        Session::flash("notice", "Comment success Added");
-      return redirect()->action('ImageController@show', [$request->id]);
-      //return redirect::to('image/'. $request->upload_id);
+      $file = Input::file('image');
+      $filename = $file->getClientOriginalName();
+      //dd($request->all());
+      /*$img = Image::make($request->file('image'))->save('upload_images'.'/'.$filename);  */
+      $img = Image::make($file);
+      $img->save('upload_images'.'/'.$filename);
+      //Image::create($request->all());
+      $data = new Upload;
 
-      /*$validate = Validator::make($request->all(), Comment::valid());
-      if($validate->fails()) {
-        return Redirect::to('commentimage/'. $request->upload_id)
-          ->withErrors($validate)
-          ->withInput();
-      } else {
-        Comment::create($request->all());
-        Session::flash('notice', 'Success add comment');
-        return Redirect::to('commentimage/'. $request->upload_id);
-      }*/
+      $data->title = $request->title;
+      $data->Description = $request->Description;
+      $data->image = $filename;
+      $data->save();
+
+      return redirect(route("images.view"));
+
     }
-
-
-
 
     /**
      * Display the specified resource.
@@ -72,7 +67,16 @@ class CommentController extends Controller
      */
     public function show($id)
     {
-        //
+
+      $value = Upload::find($id);
+      $comments = $value->comments()->get();
+      return view('images.detail')
+      ->with('value', $value)
+      ->with('comments', $comments);
+      return view('images.detail', compact('value','comments'));
+     //$comments = Upload::find($id)->comments->sortBy('Comments.created_at');
+    //
+
     }
 
     /**

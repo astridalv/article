@@ -1,15 +1,13 @@
 <?php
 
 namespace App\Http\Controllers;
-//use Illuminate\Routing\Redirector;
-use Illuminate\Support\Facades\Redirect;
-use Illuminate\Support\Facades\Validator;
-use ImageController;
-use App\Upload, App\Comment;
-use Illuminate\Http\Request;
+use App\Reporter;
 use Session;
+use Illuminate\Http\Request;
+use Illuminate\Database\Eloquent\Model;
 
-class CommentController extends Controller
+
+class ReporterController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -18,7 +16,8 @@ class CommentController extends Controller
      */
     public function index()
     {
-        //
+      $reporter = Reporter::all();
+      return view('reporters.view', compact('reporter'));
     }
 
     /**
@@ -28,7 +27,8 @@ class CommentController extends Controller
      */
     public function create()
     {
-        //
+
+        return view('reporters.index');
     }
 
     /**
@@ -39,30 +39,16 @@ class CommentController extends Controller
      */
     public function store(Request $request)
     {
-        $data = new Comment;
-        $data->subject = $request->subject;
-        $data->Comment = $request->comment;
-        $data->upload_id = $request->upload_id;
+        $data = new Reporter();
+        $data->reporterid = $request->reporterid;
+        $data->nama = $request->nama;
+        $data->jeniskelamin = $request->jeniskelamin;
+        $data->alamat = $request->alamat;
+        $data->image = $request->image;
         $data->save();
-
-        Session::flash("notice", "Comment success Added");
-      return redirect()->action('ImageController@show', [$request->id]);
-      //return redirect::to('image/'. $request->upload_id);
-
-      /*$validate = Validator::make($request->all(), Comment::valid());
-      if($validate->fails()) {
-        return Redirect::to('commentimage/'. $request->upload_id)
-          ->withErrors($validate)
-          ->withInput();
-      } else {
-        Comment::create($request->all());
-        Session::flash('notice', 'Success add comment');
-        return Redirect::to('commentimage/'. $request->upload_id);
-      }*/
+        Session::flash('notice', 'Success add Reporter');
+        return redirect()->route('reporter.index');
     }
-
-
-
 
     /**
      * Display the specified resource.
@@ -81,9 +67,12 @@ class CommentController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit($reporterid)
     {
-        //
+      
+      $data = Reporter::find($reporterid);
+
+      return view('reporters.edit', compact('data'));
     }
 
     /**
@@ -93,9 +82,18 @@ class CommentController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, $reporterid)
     {
-        //
+
+      $data = Reporter::find($reporterid);
+      $data->reporterid = $request->reporterid;
+      $data->nama = $request->nama;
+      $data->jeniskelamin = $request->jeniskelamin;
+      $data->alamat = $request->alamat;
+      $data->image = $request->image;
+      $data->save();
+      Session::flash('notice', 'Success update Reporter');
+      return redirect()->route("reporter.index");
     }
 
     /**
