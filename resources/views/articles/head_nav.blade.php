@@ -10,12 +10,21 @@
     </div>
     <div class="collapse navbar-collapse">
       <ul class="nav navbar-nav navbar-right">
-            <li><a href="{!! route('articles.index') !!}">List article</a></li>
-            <li><a href="{!! route('articles.create') !!}">create article</a></li>
-            <li><a href="{!! route('reporter.create') !!}">Insert Reporter</a></li>
-            <li><a href="{!! route('reporter.index') !!}">List Reporter</a></li>
-            <li><a href="{!! route('images.create') !!}">Insert Image</a></li>
-            <li><a href="{!! route('viewimage') !!}">List Image</a></li>
+
+            <li>{!! link_to(route('articles.index'), 'List article') !!}</li>
+            <li>{!! link_to(route('articles.create'), 'create article') !!}</li>
+            <li>{!! link_to(route('reporter.create'), 'Insert Reporter') !!}</li>
+            <li>{!! link_to(route('reporter.index'), 'List Reporter') !!}</li>
+            <li>{!! link_to(route('images.create'), 'Insert Image') !!}</li>
+            <li>{!! link_to(route('viewimage'), 'List Image') !!}</li>
+
+            @if (Sentinel::check())
+              <li>{!! link_to(route('logout'), 'Logout') !!}</li>
+              <li><a>Wellcome {!! Sentinel::getUser()->email !!}</a></li>
+            @else
+              <li>{!! link_to(route('signup'), 'Signup') !!}</li>
+              <li>{!! link_to(route('login'), 'Login') !!}</li>
+            @endif
 
           </ul>
           </div>

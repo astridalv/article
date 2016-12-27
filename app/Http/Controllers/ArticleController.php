@@ -5,10 +5,17 @@ use App\Article;
 use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\Model;
 use App\Http\Requests\ArticleRequest;
+use Cartalyst\Sentinel\Laravel\Facades\Activation;
+use Cartalyst\Sentinel\Laravel\Facades\Reminder;
+use Cartalyst\Sentinel\Laravel\Facades\Sentinel;
 use Session;
 
 class ArticleController extends Controller
 {
+    public function __construct() {
+      $this->middleware('sentinel');
+      $this->middleware('sentinel.role');
+    }
     /**
      * Display a listing of the resource.
      *
@@ -18,8 +25,8 @@ class ArticleController extends Controller
     {
 
         $article=Article::all();
-        return view('articles.index', compact('article'));
-    }
+        return view('articles.create', compact('article'));
+      }
 
     /**
      * Show the form for creating a new resource.

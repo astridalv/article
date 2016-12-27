@@ -34,5 +34,17 @@ Route::resource('comment', "CommentController");
 Route::post('upload', "ImageController@store")->name('uploadstore');
 Route::get('image', "ImageController@index")->name('viewimage');
 Route::get('commentimage/{id}', "ImageController@show")->name('detailimage');
+
+Route::get('signup', 'UsersController@signup')->name('signup');
+Route::post('signup', 'UsersController@signup_store')->name('signup.store');
+
+Route::get('login', 'SessionsController@login')->name('login');
+Route::post('login', 'SessionsController@login_store')->name('login.store');
+Route::get('logout', 'SessionsController@logout')->name('logout');
+
+Route::get('forgot-password', 'ReminderController@create')->name('reminders.create');
+Route::post('forgot-password', 'ReminderController@store')->name('reminders.store');
+Route::get('reset-password/{id}/{token}', 'ReminderController@edit')->name('reminders.edit');
+Route::post('reset-password/{id}/{token}', 'ReminderController@update')->name('reminders.update');
 //post -->post(''/{}) input/ngambil id dari name->(...); yang bakal di pakai terus
 //get ->

@@ -1,7 +1,8 @@
 @extends("layouts.application")
 @section("content")
 <style type="text/css">
-           .grid-item { width: 200px;
+           .grid-item {
+                        width: 167px;
                         float: left;
                         margin: 0;
                         /*padding: 0;*/

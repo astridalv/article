@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Validator;
 use Image;
 use Session;
+use DB;
 
 class ImageController extends Controller
 {
@@ -40,23 +41,28 @@ class ImageController extends Controller
      */
     public function store(Request $request)
     {
+          /*DB::beginTransaction();
+      try {*/
+          $file = Input::file('image');
+          $filename = $file->getClientOriginalName();
+          //dd($request->all());
+          /*$img = Image::make($request->file('image'))->save('upload_images'.'/'.$filename);  */
+          $img = Image::make($file);
+          $img->save('upload_images'.'/'.$filename);
+          //Image::create($request->all());
+          $data = new Upload;
 
-      $file = Input::file('image');
-      $filename = $file->getClientOriginalName();
-      //dd($request->all());
-      /*$img = Image::make($request->file('image'))->save('upload_images'.'/'.$filename);  */
-      $img = Image::make($file);
-      $img->save('upload_images'.'/'.$filename);
-      //Image::create($request->all());
-      $data = new Upload;
+          $data->title = $request->title;
+          $data->Description = $request->Description;
+          $data->image = $filename;
+          $data->save();
 
-      $data->title = $request->title;
-      $data->Description = $request->Description;
-      $data->image = $filename;
-      $data->save();
+          return redirect(route("viewimage"));
 
-      return redirect(route("images.view"));
-
+      /*}catch(\Exception $e) {
+          DB::rollBack();
+      }
+          DB::commit();*/
     }
 
     /**

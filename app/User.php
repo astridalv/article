@@ -1,7 +1,9 @@
 <?php
 
 namespace App;
-
+use Cartalyst\Sentinel\Native\Facades\Sentinel;
+//use Illuminate\Database\Capsule\Manager as Capsule;
+use UserController;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
@@ -14,9 +16,11 @@ class User extends Authenticatable
      *
      * @var array
      */
+    protected $table = 'users';
     protected $fillable = [
-        'name', 'email', 'password',
+        'email', 'password','first_name','last_name',
     ];
+
 
     /**
      * The attributes that should be hidden for arrays.
