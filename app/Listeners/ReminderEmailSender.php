@@ -1,10 +1,11 @@
 <?php
 
+namespace App\Http\Controllers;
 namespace App\Listeners;
 
-use App\Events\ReminderEvent;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
+use App\Events\ReminderEvent;
 use Mail;
 use App\Mail\ReminderMailable;
 class ReminderEmailSender
@@ -25,16 +26,16 @@ class ReminderEmailSender
      * @param  ReminderEvent  $event
      * @return void
      */
-    public function handle(ReminderEvent $event)
-    {
-      $user = $event->user;
-      $reminder = $event->reminder;
+     public function handle(ReminderEvent $event)
+       {
+           $user = $event->user;
+           $reminder = $event->reminder;
 
-      $detail = [
-        'id' => $user->id,
-        'email' => $user->email,
-        'code' => $reminder->code,
-      ];
-      Mail::to($user->email)->queue(new ReminderMailable($detail));
-    }
+           $detail = [
+             'id' => $user->id,
+             'email' => $user->email,
+             'code' => $reminder->code,
+           ];
+           Mail::to($user->email)->queue(new ReminderMailable($detail));
+       }
 }

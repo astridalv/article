@@ -1,10 +1,10 @@
 <?php
 
 namespace App\Http\Controllers;
-use Cartalyst\Sentinel\Laravel\Facades\Sentinel;
+use Sentinel, Reminder;
 use App\Http\Requests\ReminderRequest;
 use App\User;
-use Session, Event;
+use Session, Event, Mail;
 use App\Events\ReminderEvent;
 use Illuminate\Http\Request;
 
@@ -33,7 +33,7 @@ class ReminderController extends Controller
         return view('reminders.store', ['id' => $id, 'code' => $code]);
       }
       else {
-        return redirect('/');
+        return redirect('login');
 
       }
     }

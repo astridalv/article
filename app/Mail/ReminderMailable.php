@@ -11,31 +11,24 @@ class ReminderMailable extends Mailable
 {
     use Queueable, SerializesModels;
 
-    /**
-     * Create a new message instance.
-     *
-     * @return void
-     */
     public $detail;
     public function __construct($detail)
     {
-        $this->detail = $detail;
+      $this->detail = $detail;
+
     }
 
     /**
      * Build the message.
-     *``
+     *
      * @return $this
      */
     public function build()
     {
       return $this->from('admin@md.com')
-          ->subject('MD - Request reset password')
-          ->view('emails.reminder')
-          ->with([
-            'detail' => $this->detail,
-          ]);
-
-    //    return $this->view('view.name');
+         ->subject('MD - Request reset password')
+         ->view('emails.reminder')
+         ->with(['detail' => $this->detail,
+         ]);
     }
 }

@@ -23,7 +23,7 @@ class SentinelMiddleware
 
              } else {
 
-                 return redirect()->guest('articles.index');
+                 return redirect()->guest('login');
 
              }
 
