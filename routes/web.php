@@ -34,6 +34,7 @@ Route::resource('comment', "CommentController");
 Route::post('upload', "ImageController@store")->name('uploadstore');
 Route::get('image', "ImageController@index")->name('viewimage');
 Route::get('commentimage/{id}', "ImageController@show")->name('detailimage');
+Route::put('updateimage/{id}/edit', "ImageController@update")->name('updateimage');
 
 Route::get('signup', 'UsersController@signup')->name('signup');
 Route::post('signup', 'UsersController@signup_store')->name('signup.store');

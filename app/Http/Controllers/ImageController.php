@@ -17,6 +17,9 @@ class ImageController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+     public function __construct() {
+      //
+     }
     public function index()
     {
         $image = Upload::all();
@@ -49,7 +52,7 @@ class ImageController extends Controller
           /*$img = Image::make($request->file('image'))->save('upload_images'.'/'.$filename);  */
           $img = Image::make($file);
           $img->save('upload_images'.'/'.$filename);
-          //Image::create($request->all());
+
           $data = new Upload;
 
           $data->title = $request->title;
@@ -93,7 +96,21 @@ class ImageController extends Controller
      */
     public function edit($id)
     {
-        //
+
+        $data = Upload::find($id);
+        //dd($data->image);
+        /*if (Input::has('image')) {
+            // Delete old image
+            File::delete('upload_images'.'/'.$data->image);
+
+            // Image edit
+            $file = Input::file('image');
+            $filename = $file->getClientOriginalName();
+
+            $img = Image::make($file);
+            $img->save('upload_images'.'/'.$filename);
+        }*/
+        return view('images.edit',  compact('data'));
     }
 
     /**
@@ -105,7 +122,30 @@ class ImageController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+      dd($request->all());
+      /*
+      $data = Article::find($id);
+      $data->nama = $request->nama;
+      $data->content = $request->content;
+      $data->save();
+      */
+        $update = Upload::find($id);
+        $update->title = $request['title'];
+        $update->Description = $request['Description'];
+
+        if($request->file('image') == "")
+        {
+            $update->image = $request->image;
+        }
+        else
+        {
+            $file       = $request->file('gambar');
+            $fileName   = $file->getClientOriginalName();
+            $request->file('image')->move("upload_images/", $fileName);
+            $update->Image = $fileName;
+        }
+        $data->save();
+      return redirect(route("viewimage"));
     }
 
     /**
@@ -116,6 +156,8 @@ class ImageController extends Controller
      */
     public function destroy($id)
     {
-        //
+      $data = Upload::find($id);
+      $data->delete($id);
+      return redirect()->route("viewimage");
     }
 }

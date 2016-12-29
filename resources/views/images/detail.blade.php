@@ -5,8 +5,11 @@
     {!! Html::image('upload_images/'.$value->image) !!}
     <h1>{!! $value->title !!}</h1>
     <p>{!! $value->Description !!}</p>
-
-  </div>
+    </div>
+    {!! link_to('updateimage/'.$value->id.'/edit', 'Edit', array('class' => 'btn btn-warning')) !!}
+    {!! Form::open(array('route' => array('images.destroy', $value->id), 'method' => 'delete')) !!}
+    {!! Form::submit('Delete', array('class' => 'btn btn-danger', "onclick" => "return confirm('are you sure?')")) !!}
+    {!! Form::close() !!}
   <div>
   <h3><i><u>Give Comments</u></i></h3>
   {!! Form::open(['route' => 'comment.store', 'class' => 'form-horizontal', 'role' => 'form']) !!}

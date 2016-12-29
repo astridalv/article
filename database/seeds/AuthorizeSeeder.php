@@ -13,66 +13,67 @@ class AuthorizeSeeder extends Seeder
     {
       ///// This for seed data admin
 
-          $role_admin = [
+     $role_admin = [
 
-              "slug" => "admin",
+         "slug" => "admin",
 
-              "name" => "Admin",
+         "name" => "Admin",
 
-              "permissions" => [
+         "permissions" => [
 
-                  "admin" => true
+             "admin" => true
 
-              ]
+         ]
 
-          ];
+     ];
 
-          Sentinel::getRoleRepository()->createModel()->fill($role_admin)->save();
+     Sentinel::getRoleRepository()->createModel()->fill($role_admin)->save();
 
-          $adminrole = Sentinel::findRoleByName('Admin');
+     $adminrole = Sentinel::findRoleByName('Admin');
 
-          $user_admin = ["first_name"=>"M", "last_name"=>"Admin", "email"=>"madmin@mail.com", "password"=>"12345678"];
+     $user_admin = ["first_name"=>"M", "last_name"=>"Admin", "email"=>"madmin@mail.com", "password"=>"12345678"];
 
-          $adminuser = Sentinel::registerAndActivate($user_admin);
+     $adminuser = Sentinel::registerAndActivate($user_admin);
 
-          $adminuser->roles()->attach($adminrole);
+     $adminuser->roles()->attach($adminrole);
 
 
 
-          ///// this for seed data writer
+     ///// this for seed data writer
 
-          $role_writer = [
+     $role_writer = [
 
-              "slug" => "writer",
+         "slug" => "writer",
 
-              "name" => "Writer",
+         "name" => "Writer",
 
-              "permissions" => [
+         "permissions" => [
 
-                  "articles.index" => true,
+             "articles.index" => true,
 
-                  "articles.create" => true,
+             "articles.create" => true,
 
-                  "articles.store" => true,
+             "articles.store" => true,
 
-                  "articles.show" => true,
+             "articles.show" => true,
 
-                  "articles.edit" => true,
+             "articles.edit" => true,
 
-                  "articles.update" => true
+             "articles.update" => true
 
-              ]
+         ]
 
-          ];
+     ];
 
-          Sentinel::getRoleRepository()->createModel()->fill($role_writer)->save();
+     Sentinel::getRoleRepository()->createModel()->fill($role_writer)->save();
 
-          $writerrole = Sentinel::findRoleByName('Writer');
+     $writerrole = Sentinel::findRoleByName('Writer');
 
-        $user_writer = ["first_name"=>"Oda", "last_name"=>"E", "email"=>"oda@e.com", "password"=>"12345678"];
+   $user_writer = ["first_name"=>"Oda", "last_name"=>"E", "email"=>"oda@e.com", "password"=>"12345678"];
 
-          $writeruser = Sentinel::registerAndActivate($user_writer);
+     $writeruser = Sentinel::registerAndActivate($user_writer);
 
-          $writeruser->roles()->attach($writerrole);
-    }
+     $writeruser->roles()->attach($writerrole);
+
+   }
 }

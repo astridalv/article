@@ -21,11 +21,23 @@ class ArticleController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
+      $article=Article::all();
+      return view('articles.index', compact('article'));
+      /*$articles = Article::paginate(4);//->toJson();
+      if ($request->ajax()) {
+       $view = (String)view('articles.index')
+          ->with('articles', $articles)
+          ->render();
 
-        $article=Article::all();
-        return view('articles.create', compact('article'));
+       return response()->json(['view' => $view]);
+
+      } else {
+        return view('articles.index')
+          ->with('articles', $articles);
+      }*/
+
       }
 
     /**

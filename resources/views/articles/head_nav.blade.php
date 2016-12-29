@@ -18,6 +18,7 @@
             <li>{!! link_to(route('images.create'), 'Insert Image') !!}</li>
             <li>{!! link_to(route('viewimage'), 'List Image') !!}</li>
 
+
             @if (Sentinel::check())
               <li>{!! link_to(route('logout'), 'Logout') !!}</li>
               <li><a>Wellcome {!! Sentinel::getUser()->email !!}</a></li>

@@ -1,9 +1,10 @@
 <?php
 
 namespace App\Http\Middleware;
-use App\User;
+
 use Closure;
 use Sentinel, Session;
+
 class RoleSentinelMiddleware
 {
     /**
@@ -15,6 +16,7 @@ class RoleSentinelMiddleware
      */
     public function handle($request, Closure $next)
     {
+      dd($next->route()->getName());
       if (Sentinel::inRole('writer') && Sentinel::getUser()->hasAccess([$request->route()->getName()])) {
 
           return $next($request);
