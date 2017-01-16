@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Validator;
 use Image;
 use Session;
-use DB;
+use DB, Excel;
 
 class ImageController extends Controller
 {
@@ -44,8 +44,7 @@ class ImageController extends Controller
      */
     public function store(Request $request)
     {
-          /*DB::beginTransaction();
-      try {*/
+
           $file = Input::file('image');
           $filename = $file->getClientOriginalName();
           //dd($request->all());
@@ -60,12 +59,9 @@ class ImageController extends Controller
           $data->image = $filename;
           $data->save();
 
-          return redirect(route("viewimage"));
+          //return redirect(route("image"));
+          return view('images.index');
 
-      /*}catch(\Exception $e) {
-          DB::rollBack();
-      }
-          DB::commit();*/
     }
 
     /**
@@ -83,6 +79,7 @@ class ImageController extends Controller
       ->with('value', $value)
       ->with('comments', $comments);
       return view('images.detail', compact('value','comments'));
+
      //$comments = Upload::find($id)->comments->sortBy('Comments.created_at');
     //
 
@@ -98,18 +95,7 @@ class ImageController extends Controller
     {
 
         $data = Upload::find($id);
-        //dd($data->image);
-        /*if (Input::has('image')) {
-            // Delete old image
-            File::delete('upload_images'.'/'.$data->image);
 
-            // Image edit
-            $file = Input::file('image');
-            $filename = $file->getClientOriginalName();
-
-            $img = Image::make($file);
-            $img->save('upload_images'.'/'.$filename);
-        }*/
         return view('images.edit',  compact('data'));
     }
 
@@ -122,7 +108,7 @@ class ImageController extends Controller
      */
     public function update(Request $request, $id)
     {
-      dd($request->all());
+      dd($request);
       /*
       $data = Article::find($id);
       $data->nama = $request->nama;
@@ -160,4 +146,50 @@ class ImageController extends Controller
       $data->delete($id);
       return redirect()->route("viewimage");
     }
+
+    public function exportexcel($id){
+
+      Excel::create('bebas', function($excel) use($id) {
+      $query = Upload::find($id);
+      $find = Upload::select('title','Description')->where('id','=', $id)->get();
+      $commentresult = $query->comments()->get();
+
+      $excel->sheet('gambar', function($sheet) use($find)  {
+      $sheet->fromArray($find);
+      });
+
+      // Our second sheet
+      $excel->sheet('comments', function($sheet) use($commentresult) {
+      $sheet->fromArray($commentresult);
+      });
+
+    })->download('xls');
+    Session::flash("notice", "Export success created");
+    }
+    public function viewimport(){
+    //  return view('images.vimport');
+    }
+    public function importtexcel(){
+/*
+    		if(Input::hasFile('import_file')){
+    			$path = Input::file('import_file')->getRealPath();
+    			$data = Excel::load($path, function($reader) use($path){
+    			})->get();
+          Excel::selectSheets('gambar')->load($path , function($reader));
+
+          $reader->selectSheets('gambar');
+    			if(!empty($data) && $data->count()){
+    				foreach ($data as $key => $value) {
+    					$insert[] = ['id' => $value->id,'title' => $value->title, 'description' => $value->description, 'image'=> $value->image, 'created_at'=> $value->create_at, 'updated_at'=> $value->updated_at];
+    				}
+    				if(!empty($insert)){
+    					Upload::table('items')->insert($insert);
+    					Session::flash("notice", "Import success created");
+    				}
+    			}
+    		}
+    		return back();
+        */
+    }
+
 }

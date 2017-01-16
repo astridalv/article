@@ -13,8 +13,8 @@ use Session;
 class ArticleController extends Controller
 {
     public function __construct() {
-      $this->middleware('sentinel');
-      $this->middleware('sentinel.role');
+      //$this->middleware('sentinel');
+      //$this->middleware('sentinel.role');
     }
     /**
      * Display a listing of the resource.
@@ -25,18 +25,6 @@ class ArticleController extends Controller
     {
       $article=Article::all();
       return view('articles.index', compact('article'));
-      /*$articles = Article::paginate(4);//->toJson();
-      if ($request->ajax()) {
-       $view = (String)view('articles.index')
-          ->with('articles', $articles)
-          ->render();
-
-       return response()->json(['view' => $view]);
-
-      } else {
-        return view('articles.index')
-          ->with('articles', $articles);
-      }*/
 
       }
 
@@ -94,7 +82,6 @@ class ArticleController extends Controller
         $data = Article::find($id);
 
         return view('articles.edit', compact('data'));
-
 
     }
 

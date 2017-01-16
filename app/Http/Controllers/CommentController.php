@@ -39,6 +39,7 @@ class CommentController extends Controller
      */
     public function store(Request $request)
     {
+      //dd($request->all());
         $data = new Comment;
         $data->subject = $request->subject;
         $data->Comment = $request->comment;
@@ -46,8 +47,10 @@ class CommentController extends Controller
         $data->save();
 
         Session::flash("notice", "Comment success Added");
-      return redirect()->action('ImageController@show', [$request->id]);
-      //return redirect::to('image/'. $request->upload_id);
+        //return view('images.index');
+      //return redirect()->action('ImageController@show', [$request->id]);
+      return redirect()->back();
+      //return redirect()->route('detailimage'. $request->upload_id);
 
       /*$validate = Validator::make($request->all(), Comment::valid());
       if($validate->fails()) {

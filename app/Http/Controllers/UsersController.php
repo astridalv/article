@@ -27,7 +27,9 @@ class UsersController extends Controller
 
         ];
 
-        Sentinel::registerAndActivate($sign);
+        $writeruser=Sentinel::registerAndActivate($sign);
+        $writerrole = Sentinel::findRoleByName('Writer');
+        $writeruser->roles()->attach($writerrole);
         Session::flash('notice', 'Success create new user');
         return redirect()->back();
       }

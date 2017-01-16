@@ -17,7 +17,7 @@
             <li>{!! link_to(route('reporter.index'), 'List Reporter') !!}</li>
             <li>{!! link_to(route('images.create'), 'Insert Image') !!}</li>
             <li>{!! link_to(route('viewimage'), 'List Image') !!}</li>
-
+            
 
             @if (Sentinel::check())
               <li>{!! link_to(route('logout'), 'Logout') !!}</li>
